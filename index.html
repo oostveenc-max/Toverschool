@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tover Academie</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Crimson+Pro:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#12091f;--gold:#f5c800;--text:#f0ece0;--muted:#8878b0;--border:rgba(255,255,255,0.1);
+  --s20:#a78bfa;--s50:#f472b6;--s100:#34d399;--s1000:#fb923c;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--bg);min-height:100vh;font-family:'Crimson Pro',serif;color:var(--text);display:flex;flex-direction:column;align-items:center;padding:1rem 0.5rem 3rem;overflow-x:hidden;}
+body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
+  background:radial-gradient(ellipse at 20% 20%,rgba(167,139,250,0.07) 0%,transparent 55%),
+  radial-gradient(ellipse at 80% 80%,rgba(56,152,208,0.06) 0%,transparent 55%);}
+.stars{position:fixed;inset:0;pointer-events:none;z-index:0;}
+.star{position:absolute;background:white;border-radius:50%;}
+@keyframes twinkle{0%,100%{opacity:.1;}50%{opacity:.8;}}
+.wrap{position:relative;z-index:1;width:min(560px,97vw);display:flex;flex-direction:column;align-items:center;gap:1rem;}
+.title{font-family:'Cinzel Decorative',serif;font-size:clamp(1.2rem,5vw,2rem);color:var(--gold);text-align:center;text-shadow:0 0 40px rgba(245,200,0,0.5);margin-top:.5rem;}
+.sub{text-align:center;color:var(--muted);font-style:italic;font-size:1rem;}
+.screen{width:100%;display:flex;flex-direction:column;align-items:center;gap:1rem;}
+.hidden{display:none!important;}
+.lbl{font-family:'Cinzel Decorative',serif;font-size:.65rem;letter-spacing:.18em;color:var(--muted);text-transform:uppercase;align-self:flex-start;}
+
+/* HOME */
+.home-grid{display:grid;grid-template-columns:1fr 1fr;gap:.9rem;width:100%;}
+.hbtn{font-family:'Cinzel Decorative',serif;font-size:.9rem;padding:1.3rem .8rem;border-radius:18px;border:2px solid rgba(255,255,255,.12);background:rgba(255,255,255,.05);color:var(--text);cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:.5rem;transition:all .2s;}
+.hbtn:hover{transform:translateY(-2px);background:rgba(255,255,255,.09);}
+.hbtn .ico{font-size:2.2rem;}
+.hbtn.s{border-color:rgba(167,139,250,.35);}
+.hbtn.s:hover{border-color:var(--s20);box-shadow:0 5px 25px rgba(167,139,250,.2);}
+.hbtn.t{border-color:rgba(245,200,0,.3);}
+.hbtn.t:hover{border-color:var(--gold);box-shadow:0 5px 25px rgba(245,200,0,.18);}
+.hbtn.sb{border-color:rgba(244,114,182,.35);grid-column:1/-1;flex-direction:row;justify-content:center;padding:1rem;}
+.hbtn.sb:hover{border-color:#f472b6;box-shadow:0 5px 25px rgba(244,114,182,.2);}
+.sb-cnt{font-family:'Crimson Pro',serif;font-size:.85rem;color:#f472b6;font-style:italic;}
+
+/* SOMMEN MENU */
+.lv-grid{display:grid;grid-template-columns:1fr 1fr;gap:.8rem;width:100%;}
+.lv-btn{font-family:'Cinzel Decorative',serif;font-size:.85rem;padding:.9rem .7rem .8rem;border-radius:16px;border:2px solid transparent;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:.4rem;transition:all .18s;background:rgba(255,255,255,.05);}
+.lv-btn:hover{transform:translateY(-2px);}
+.lv-sc{font-family:'Crimson Pro',serif;font-size:.78rem;color:rgba(255,255,255,.5);min-height:3.4em;text-align:center;line-height:1.8;}
+
+/* TAFELS */
+.tf-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:.45rem;width:100%;}
+.tf-btn{font-family:'Cinzel Decorative',serif;font-size:.9rem;font-weight:700;padding:.55rem 0 .4rem;border:none;border-radius:11px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:.2rem;transition:transform .15s;box-shadow:0 3px 10px rgba(0,0,0,.3);}
+.tf-btn:hover{transform:translateY(-2px) scale(1.05);}
+.tf-sc{font-family:'Crimson Pro',serif;font-size:.58rem;line-height:1.5;text-align:center;}
+.mix-box{background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:16px;padding:.9rem;width:100%;}
+.mix-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:.35rem;margin:.5rem 0 .8rem;}
+.mx-cb{display:none;}
+.mx-lbl{display:flex;align-items:center;justify-content:center;font-family:'Cinzel Decorative',serif;font-size:.82rem;font-weight:700;padding:.45rem 0;border-radius:9px;cursor:pointer;border:2px solid transparent;transition:all .15s;opacity:.35;box-shadow:0 2px 6px rgba(0,0,0,.2);}
+.mx-cb:checked+.mx-lbl{opacity:1;border-color:white;transform:scale(1.05);}
+
+/* BUTTONS */
+.btn-p{font-family:'Cinzel Decorative',serif;font-size:.88rem;padding:.72rem 2rem;background:linear-gradient(135deg,#c026d3,#7c3aed);border:none;border-radius:50px;color:white;cursor:pointer;box-shadow:0 4px 18px rgba(192,38,211,.4);transition:all .2s;}
+.btn-p:hover{transform:translateY(-2px);}
+.btn-s{font-family:'Cinzel Decorative',serif;font-size:.88rem;padding:.72rem 2rem;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.2);border-radius:50px;color:var(--text);cursor:pointer;transition:all .2s;}
+.btn-s:hover{background:rgba(255,255,255,.14);}
+.btn-b{font-family:'Cinzel Decorative',serif;font-size:.7rem;padding:.4rem 1.3rem;background:rgba(255,255,255,.06);border:1px solid var(--border);border-radius:50px;color:var(--muted);cursor:pointer;transition:all .2s;align-self:flex-start;}
+.btn-b:hover{background:rgba(255,255,255,.11);color:var(--text);}
+
+/* GAME */
+.top-bar{display:flex;gap:.65rem;width:100%;justify-content:center;flex-wrap:wrap;}
+.sbox{background:rgba(255,255,255,.07);border:1px solid var(--border);border-radius:11px;padding:.38rem .9rem;text-align:center;min-width:82px;}
+.slbl{font-size:.65rem;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;}
+.sval{font-family:'Cinzel Decorative',serif;font-size:1.3rem;color:var(--gold);}
+.pg-wrap{width:100%;height:7px;background:rgba(255,255,255,.1);border-radius:99px;overflow:hidden;}
+.pg-bar{height:100%;border-radius:99px;background:linear-gradient(90deg,#a78bfa,#f472b6);transition:width .3s ease;}
+.q-card{width:100%;border-radius:20px;padding:1.6rem 1.3rem 1.3rem;display:flex;flex-direction:column;align-items:center;gap:1rem;border:2px solid rgba(255,255,255,.1);box-shadow:0 8px 40px rgba(0,0,0,.45);transition:border-color .3s,box-shadow .3s;background:linear-gradient(145deg,rgba(30,15,55,.97),rgba(18,9,31,.99));}
+.q-badge{font-family:'Cinzel Decorative',serif;font-size:.65rem;letter-spacing:.12em;padding:.25rem .9rem;border-radius:99px;font-weight:700;}
+.q-sum{font-family:'Cinzel Decorative',serif;font-size:clamp(2rem,9vw,3.4rem);text-align:center;line-height:1.1;}
+.ans-grid{display:grid;grid-template-columns:1fr 1fr;gap:.6rem;width:100%;}
+.ans-btn{font-family:'Cinzel Decorative',serif;font-size:1.4rem;padding:.78rem;border:2px solid rgba(255,255,255,.12);border-radius:13px;background:rgba(255,255,255,.06);color:var(--text);cursor:pointer;transition:all .15s;}
+.ans-btn:hover{background:rgba(255,255,255,.13);transform:translateY(-2px);}
+.ans-btn.ok{border-color:#22c55e;background:rgba(34,197,94,.2);animation:pop .35s ease;}
+.ans-btn.no{border-color:#ef4444;background:rgba(239,68,68,.18);animation:shake .4s ease;}
+@keyframes pop{0%,100%{transform:scale(1)}50%{transform:scale(1.08)}}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-7px)}75%{transform:translateX(7px)}}
+.fb{font-family:'Cinzel Decorative',serif;font-size:.9rem;min-height:1.4em;text-align:center;}
+.fb.ok{color:#22c55e;}
+.fb.no{color:#ef4444;}
+
+/* END */
+.end-grid{display:flex;gap:.8rem;flex-wrap:wrap;justify-content:center;width:100%;}
+.ebox{background:rgba(255,255,255,.05);border:1px solid var(--border);border-radius:13px;padding:.65rem 1.1rem;text-align:center;flex:1;min-width:100px;}
+.ebox .elbl{font-size:.65rem;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;margin-bottom:.25rem;}
+.ebox .eval{font-family:'Cinzel Decorative',serif;font-size:1.25rem;color:var(--gold);}
+.ebox .erow{font-family:'Cinzel Decorative',serif;font-size:.8rem;color:var(--gold);line-height:1.9;}
+.ft-titel{font-family:'Cinzel Decorative',serif;font-size:.75rem;letter-spacing:.12em;color:#ef4444;text-transform:uppercase;align-self:flex-start;}
+.ft-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(135px,1fr));gap:.45rem;width:100%;}
+.ft-kaart{background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.3);border-radius:11px;padding:.55rem .75rem;display:flex;flex-direction:column;gap:.12rem;}
+.ft-som{font-family:'Cinzel Decorative',serif;font-size:.95rem;color:#f87171;}
+.ft-det{font-family:'Crimson Pro',serif;font-size:.8rem;color:rgba(255,255,255,.5);}
+
+/* STICKER REVEAL */
+.st-reveal{background:linear-gradient(145deg,rgba(40,10,70,.98),rgba(18,9,31,.99));border:2px solid var(--gold);border-radius:18px;padding:1.4rem;text-align:center;width:100%;display:flex;flex-direction:column;align-items:center;gap:.7rem;box-shadow:0 0 35px rgba(245,200,0,.18);}
+.st-lbl{font-family:'Cinzel Decorative',serif;font-size:.6rem;letter-spacing:.18em;color:var(--muted);}
+.st-ico{font-size:4rem;display:block;}
+@keyframes stPop{0%{transform:scale(0);opacity:0}75%{transform:scale(1.12);opacity:1}100%{transform:scale(1);opacity:1}}
+.st-naam{font-family:'Cinzel Decorative',serif;font-size:1.05rem;color:var(--gold);}
+.st-desc{font-family:'Crimson Pro',serif;font-style:italic;color:#c4b5fd;font-size:.92rem;}
+.kw{font-family:'Cinzel Decorative',serif;font-size:.68rem;letter-spacing:.12em;padding:.22rem .85rem;border-radius:99px;}
+.kw.brons{background:rgba(180,100,30,.25);color:#cd7f32;border:1px solid #cd7f32;}
+.kw.zilver{background:rgba(180,180,180,.15);color:#c0c0c0;border:1px solid #c0c0c0;}
+.kw.goud{background:rgba(245,200,0,.15);color:var(--gold);border:1px solid var(--gold);}
+.kw.magisch{background:rgba(192,38,211,.2);color:#f0abfc;border:1px solid #f0abfc;}
+
+/* STICKERBOEK */
+.sb-hdr{display:flex;justify-content:space-between;align-items:center;width:100%;}
+.sb-tot{font-family:'Crimson Pro',serif;font-size:.88rem;color:var(--muted);font-style:italic;}
+.sb-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.65rem;width:100%;}
+.sb-card{background:rgba(255,255,255,.05);border:1px solid var(--border);border-radius:13px;padding:.75rem .45rem .55rem;display:flex;flex-direction:column;align-items:center;gap:.22rem;text-align:center;}
+.sb-ico{font-size:1.9rem;line-height:1;}
+.sb-nm{font-family:'Cinzel Decorative',serif;font-size:.56rem;color:var(--gold);line-height:1.3;}
+.sb-dt{font-family:'Crimson Pro',serif;font-size:.6rem;color:var(--muted);font-style:italic;}
+.sb-leeg{text-align:center;color:var(--muted);font-style:italic;padding:2rem 1rem;grid-column:1/-1;font-size:.95rem;}
+</style>
+</head>
+<body>
+<div class="stars" id="stars"></div>
+<div class="wrap">
+  <div class="title">Tover Academie</div>
+  <div class="sub">Kies je avontuur, jonge tovenaar!</div>
+
+  <!-- HOME -->
+  <div class="screen" id="S_home">
+    <div class="home-grid">
+      <button class="hbtn s" id="B_sommen"><span class="ico">+</span><span>Optellen &amp; Aftrekken</span></button>
+      <button class="hbtn t" id="B_tafels"><span class="ico">x</span><span>Tafels</span></button>
+      <button class="hbtn sb" id="B_stickerboek">
+        <span class="ico">&#x1F4D6;</span>
+        <span>Mijn Stickerboek</span>
+        <span class="sb-cnt" id="sbCnt">0 stickers</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- SOMMEN MENU -->
+  <div class="screen hidden" id="S_sommen">
+    <button class="btn-b" id="B_somTerug">Terug</button>
+    <div class="lbl">Kies niveau - 20 sommen zo snel mogelijk</div>
+    <div class="lv-grid" id="lvGrid"></div>
+  </div>
+
+  <!-- TAFELS MENU -->
+  <div class="screen hidden" id="S_tafels">
+    <button class="btn-b" id="B_tafTerug">Terug</button>
+    <div class="lbl">Kies tafel - 20 sommen zo snel mogelijk</div>
+    <div class="tf-grid" id="tfGrid"></div>
+    <div class="mix-box">
+      <div class="lbl" style="margin-bottom:.5rem">Maak je eigen mix</div>
+      <div class="mix-grid" id="mxGrid"></div>
+      <button class="btn-p" id="B_mix">Start mix!</button>
+    </div>
+  </div>
+
+  <!-- GAME -->
+  <div class="screen hidden" id="S_game">
+    <div class="top-bar">
+      <div class="sbox"><div class="slbl">Vraag</div><div class="sval" id="gVraag">1/20</div></div>
+      <div class="sbox"><div class="slbl">Tijd</div><div class="sval" id="gTijd">0:00</div></div>
+      <div class="sbox"><div class="slbl">Fout</div><div class="sval" id="gFout">0</div></div>
+    </div>
+    <div class="pg-wrap"><div class="pg-bar" id="pgBar" style="width:0%"></div></div>
+    <div class="q-card" id="qCard">
+      <div class="q-badge" id="qBadge">-</div>
+      <div class="q-sum" id="qSum">?</div>
+      <div class="ans-grid" id="ansGrid"></div>
+      <div class="fb" id="fbEl"></div>
+    </div>
+    <button class="btn-b" id="B_stop">Stoppen</button>
+  </div>
+
+  <!-- END -->
+  <div class="screen hidden" id="S_end">
+    <div style="font-size:2.8rem;text-align:center" id="endIco">&#x1F31F;</div>
+    <div style="font-family:'Cinzel Decorative',serif;font-size:1.3rem;color:var(--gold);text-align:center" id="endTitel">Goed gedaan!</div>
+    <p style="color:#c4b5fd;font-size:1rem;text-align:center;line-height:1.6" id="endMsg"></p>
+    <div class="end-grid">
+      <div class="ebox"><div class="elbl">Jouw tijd</div><div class="eval" id="eTijd">0:00</div></div>
+      <div class="ebox"><div class="elbl">Top 3</div><div id="eTop3" class="erow">-</div></div>
+      <div class="ebox"><div class="elbl">Fouten</div><div class="eval" id="eFouten">0</div></div>
+    </div>
+    <div id="ftBlok" class="hidden" style="width:100%;display:flex;flex-direction:column;gap:.55rem">
+      <div class="ft-titel">Gemaakte fouten</div>
+      <div class="ft-grid" id="ftGrid"></div>
+    </div>
+    <div class="st-reveal">
+      <div class="st-lbl">NIEUWE STICKER VERDIEND</div>
+      <span class="st-ico" id="stIco">&#x2B50;</span>
+      <span class="kw goud" id="stKw">Goud</span>
+      <div class="st-naam" id="stNaam">-</div>
+      <div class="st-desc" id="stDesc">-</div>
+    </div>
+    <div style="display:flex;gap:.8rem;flex-wrap:wrap;justify-content:center">
+      <button class="btn-p" id="B_nogeen">Speel weer!</button>
+      <button class="btn-s" id="B_keuze">Andere keuze</button>
+    </div>
+  </div>
+
+  <!-- STICKERBOEK -->
+  <div class="screen hidden" id="S_stickerboek">
+    <div class="sb-hdr">
+      <button class="btn-b" id="B_sbTerug">Terug</button>
+      <div class="sb-tot" id="sbTot">0 stickers</div>
+    </div>
+    <div class="lbl">Mijn Toverstickers</div>
+    <div class="sb-grid" id="sbGrid"></div>
+  </div>
+
+</div>
+<script>
+// STERREN
+(function(){
+  var el=document.getElementById('stars');
+  for(var i=0;i<80;i++){
+    var s=document.createElement('div');
+    s.className='star';
+    var sz=Math.random()*2+0.4;
+    var dur=(Math.random()*3+1.5).toFixed(1);
+    var del=(Math.random()*5).toFixed(1);
+    s.style.width=sz+'px';
+    s.style.height=sz+'px';
+    s.style.top=(Math.random()*100)+'%';
+    s.style.left=(Math.random()*100)+'%';
+    s.style.animation='twinkle '+dur+'s '+del+'s ease-in-out infinite';
+    el.appendChild(s);
+  }
+})();
+
+// KLEUREN TAFELS
+var TC={
+  1:{bg:'#f5c800',tx:'#1a1a1a'},2:{bg:'#f47c20',tx:'#fff'},3:{bg:'#e03020',tx:'#fff'},
+  4:{bg:'#c0181a',tx:'#fff'},5:{bg:'#f4a0b8',tx:'#1a1a1a'},6:{bg:'#e060a0',tx:'#fff'},
+  7:{bg:'#90c840',tx:'#1a1a1a'},8:{bg:'#48a830',tx:'#fff'},9:{bg:'#3898d0',tx:'#fff'},
+  10:{bg:'#3a7a8a',tx:'#fff'}
+};
+var TC_GL={
+  1:'rgba(245,200,0,.5)',2:'rgba(244,124,32,.5)',3:'rgba(224,48,32,.5)',4:'rgba(192,24,26,.5)',
+  5:'rgba(244,160,184,.5)',6:'rgba(224,96,160,.5)',7:'rgba(144,200,64,.5)',8:'rgba(72,168,48,.5)',
+  9:'rgba(56,152,208,.5)',10:'rgba(58,122,138,.5)'
+};
+
+// KLEUREN NIVEAUS
+var LC={
+  20:{c:'#a78bfa',gl:'rgba(167,139,250,.45)',naam:'Tot 20'},
+  50:{c:'#f472b6',gl:'rgba(244,114,182,.45)',naam:'Tot 50'},
+  100:{c:'#34d399',gl:'rgba(52,211,153,.45)',naam:'Tot 100'},
+  1000:{c:'#fb923c',gl:'rgba(251,146,60,.45)',naam:'Tot 1000'}
+};
+
+// STICKERS
+var STICKERS=[
+  {ico:'🔮',naam:'De Kristallen Bol',desc:'Ziet de toekomst van elke som'},
+  {ico:'🧪',naam:'Het Toverpotje',desc:'Borrelt van de magie'},
+  {ico:'🦁',naam:'De Magische Leeuw',desc:'Dapper en slim tegelijk'},
+  {ico:'🦋',naam:'De Elfenvlinder',desc:'Zweeft door sommen heen'},
+  {ico:'🐉',naam:'De Wijze Draak',desc:'Bewaker van alle getallen'},
+  {ico:'⭐',naam:'De Gouden Ster',desc:'Schijnt het helderst'},
+  {ico:'🌙',naam:'De Zilveren Maan',desc:'Verlicht moeilijke sommen'},
+  {ico:'🧝',naam:'De Elfenkoningin',desc:'Heerst over het rekenrijk'},
+  {ico:'🧙',naam:'De Tovenaar',desc:'Meester van alle spreuken'},
+  {ico:'💎',naam:'De Regenboogsteen',desc:'Zeven kleuren, zeven krachten'},
+  {ico:'🦉',naam:'De Wijze Uil',desc:'Kent alle antwoorden'},
+  {ico:'🦊',naam:'De Vossenmage',desc:'Slim en behendig'},
+  {ico:'🏰',naam:'Het Betoverd Kasteel',desc:'Elke kamer vol sommen'},
+  {ico:'💫',naam:'De Sterrenflits',desc:'Razendsnel door sommen'},
+  {ico:'🏆',naam:'De Kampioensschaal',desc:'Alleen voor de allerbeste'},
+  {ico:'🌈',naam:'De Regenboogmagie',desc:'Kleurt elke som vrolijk in'},
+  {ico:'🦄',naam:'De Eenhoorn',desc:'Zeldzaam en prachtig'},
+  {ico:'🐦',naam:'De Magische Vogel',desc:'Vliegt over elk obstakel'}
+];
+
+// OPSLAG
+function laadScores(){try{return JSON.parse(localStorage.getItem('ta5s')||'{}');}catch(e){return{};}}
+function slaScore(key,sec){
+  var d=laadScores();
+  if(!d[key])d[key]=[];
+  d[key].push(sec);
+  d[key].sort(function(a,b){return a-b;});
+  d[key]=d[key].slice(0,3);
+  try{localStorage.setItem('ta5s',JSON.stringify(d));}catch(e){}
+}
+function top3(key){return laadScores()[key]||[];}
+
+function laadStickers(){try{return JSON.parse(localStorage.getItem('ta5st')||'[]');}catch(e){return[];}}
+function slaSticker(st){
+  var arr=laadStickers();arr.push(st);
+  try{localStorage.setItem('ta5st',JSON.stringify(arr));}catch(e){}
+}
+
+function fmt(sec){var m=Math.floor(sec/60);var s=sec%60;return m+':'+(s<10?'0':'')+s;}
+
+// SCHERMEN
+var ALLE=['S_home','S_sommen','S_tafels','S_game','S_end','S_stickerboek'];
+function toon(id){
+  for(var i=0;i<ALLE.length;i++){
+    var el=document.getElementById(ALLE[i]);
+    if(ALLE[i]===id){el.classList.remove('hidden');}
+    else{el.classList.add('hidden');}
+  }
+}
+
+// BADGE
+function updateBadge(){
+  var n=laadStickers().length;
+  var el=document.getElementById('sbCnt');
+  if(el)el.textContent=n+' sticker'+(n===1?'':'s');
+}
+
+// SOMMEN MENU
+var MEDALS=['🥇','🥈','🥉'];
+function bouwSommenMenu(){
+  var grid=document.getElementById('lvGrid');
+  grid.innerHTML='';
+  var lvs=[20,50,100,1000];
+  for(var i=0;i<lvs.length;i++){
+    (function(lv){
+      var lc=LC[lv];
+      var t3=top3('s'+lv);
+      var btn=document.createElement('button');
+      btn.className='lv-btn';
+      btn.style.borderColor=lc.c+'88';
+      btn.style.color=lc.c;
+      var nm=document.createElement('span');
+      nm.textContent='Tot '+lv;
+      nm.style.fontSize='1.05rem';
+      btn.appendChild(nm);
+      var sc=document.createElement('div');
+      sc.className='lv-sc';
+      if(t3.length===0){sc.textContent='nog geen scores';sc.style.opacity='0.4';}
+      else{for(var j=0;j<t3.length;j++){var r=document.createElement('div');r.textContent=MEDALS[j]+' '+fmt(t3[j]);sc.appendChild(r);}}
+      btn.appendChild(sc);
+      btn.onclick=function(){startSpel('som',lv);};
+      grid.appendChild(btn);
+    })(lvs[i]);
+  }
+}
+
+// TAFELS MENU
+function bouwTafelsMenu(){
+  var grid=document.getElementById('tfGrid');
+  grid.innerHTML='';
+  for(var t=1;t<=10;t++){
+    (function(t){
+      var col=TC[t];
+      var t3=top3('t'+t);
+      var btn=document.createElement('button');
+      btn.className='tf-btn';
+      btn.style.background=col.bg;
+      btn.style.color=col.tx;
+      var lbl=document.createTextNode('x'+t);
+      btn.appendChild(lbl);
+      var sc=document.createElement('span');
+      sc.className='tf-sc';
+      sc.style.color=col.tx==='#fff'?'rgba(255,255,255,.55)':'rgba(0,0,0,.45)';
+      sc.textContent=t3.length===0?'-':t3.map(function(s,i){return MEDALS[i]+fmt(s);}).join(' ');
+      btn.appendChild(sc);
+      btn.onclick=function(){startSpel('tafel',[t]);};
+      grid.appendChild(btn);
+    })(t);
+  }
+  var mg=document.getElementById('mxGrid');
+  mg.innerHTML='';
+  for(var t=1;t<=10;t++){
+    (function(t){
+      var col=TC[t];
+      var cb=document.createElement('input');
+      cb.type='checkbox';cb.className='mx-cb';cb.id='mx'+t;cb.value=t;
+      var lb=document.createElement('label');
+      lb.htmlFor='mx'+t;lb.className='mx-lbl';
+      lb.style.background=col.bg;lb.style.color=col.tx;
+      lb.textContent='x'+t;
+      mg.appendChild(cb);mg.appendChild(lb);
+    })(t);
+  }
+}
+
+// STICKERBOEK
+function bouwStickerboek(){
+  var arr=laadStickers();
+  var grid=document.getElementById('sbGrid');
+  var tot=document.getElementById('sbTot');
+  grid.innerHTML='';
+  if(tot)tot.textContent=arr.length+' sticker'+(arr.length===1?'':'s');
+  if(arr.length===0){
+    var leeg=document.createElement('div');
+    leeg.className='sb-leeg';
+    leeg.textContent='Nog geen stickers! Speel een potje om te beginnen.';
+    grid.appendChild(leeg);
+    return;
+  }
+  var lijst=arr.slice().reverse();
+  for(var i=0;i<lijst.length;i++){
+    var st=lijst[i];
+    var card=document.createElement('div');card.className='sb-card';
+    var ic=document.createElement('div');ic.className='sb-ico';ic.textContent=st.ico;
+    var nm=document.createElement('div');nm.className='sb-nm';nm.textContent=st.naam;
+    var kw=document.createElement('div');kw.className='kw '+st.kw;
+    kw.textContent=st.kw.charAt(0).toUpperCase()+st.kw.slice(1);
+    var dt=document.createElement('div');dt.className='sb-dt';dt.textContent=st.datum;
+    card.appendChild(ic);card.appendChild(nm);card.appendChild(kw);card.appendChild(dt);
+    grid.appendChild(card);
+  }
+}
+
+// GAME STATE
+var gMode,gVal,gKey,gAntw,gGesloten,gNr,gFouten,gFoutenLijst,gStart,gTick,gVerlopen,gVorigeRec;
+
+var GOED=['Tovergeweldig!','Briljant!','Magie!','Super!','Ja!','Wauw!','Ongelooflijk!'];
+var FOUT=['Bijna! Volgende!','Oeps! Sterk blijven!','Niet erg, door!'];
+
+function startSpel(mode,val){
+  gMode=mode;gVal=val;
+  if(mode==='som'){gKey='s'+val;}
+  else{var v=[].concat(val).sort(function(a,b){return a-b;});gKey='t'+v.join('-');}
+  gAntw=0;gGesloten=false;gNr=0;gFouten=0;gFoutenLijst=[];gVerlopen=0;
+  var t3=top3(gKey);gVorigeRec=t3.length>0?t3[0]:null;
+  gStart=Date.now();
+  clearInterval(gTick);
+  gTick=setInterval(function(){
+    gVerlopen=Math.floor((Date.now()-gStart)/1000);
+    document.getElementById('gTijd').textContent=fmt(gVerlopen);
+  },200);
+  toon('S_game');
+  volgendeVraag();
+}
+
+function volgendeVraag(){
+  gGesloten=false;gNr++;
+  document.getElementById('fbEl').textContent='';
+  document.getElementById('fbEl').className='fb';
+  document.getElementById('gVraag').textContent=gNr+'/20';
+  document.getElementById('gFout').textContent=gFouten;
+  document.getElementById('pgBar').style.width=((gNr-1)/20*100)+'%';
+
+  var somTxt,kleur,glow,badgeTxt,badgeBg,badgeTx;
+
+  if(gMode==='som'){
+    var max=gVal;var lc=LC[max];
+    kleur=lc.c;glow=lc.gl;
+    var a,b,ans;
+    if(Math.random()<0.5){
+      a=Math.floor(Math.random()*(max-1))+1;
+      b=Math.floor(Math.random()*(max-a))+1;
+      ans=a+b;somTxt=a+' + '+b+' = ?';
+    } else {
+      ans=Math.floor(Math.random()*(max-2))+1;
+      b=Math.floor(Math.random()*(max-ans-1))+1;
+      a=ans+b;somTxt=a+' - '+b+' = ?';
+    }
+    gAntw=ans;badgeTxt='Tot '+max;badgeBg=lc.c;badgeTx='#fff';
+  } else {
+    var tbs=gVal;var t=tbs[Math.floor(Math.random()*tbs.length)];var b=Math.floor(Math.random()*10)+1;
+    gAntw=t*b;somTxt=t+' x '+b+' = ?';
+    kleur=TC[t].bg;glow=TC_GL[t];
+    badgeTxt=tbs.length===1?'Tafel van '+t:t+' x '+b;
+    badgeBg=TC[t].bg;badgeTx=TC[t].tx;
+  }
+
+  var card=document.getElementById('qCard');
+  card.style.borderColor=kleur;
+  card.style.boxShadow='0 8px 40px rgba(0,0,0,.45),0 0 25px '+glow;
+  var badge=document.getElementById('qBadge');
+  badge.style.background=badgeBg;badge.style.color=badgeTx;badge.textContent=badgeTxt;
+  var qsum=document.getElementById('qSum');
+  qsum.style.color=kleur;qsum.style.textShadow='0 0 22px '+glow;qsum.textContent=somTxt;
+
+  var opties=[gAntw];var tries=0;
+  while(opties.length<4&&tries<300){
+    tries++;var w;
+    if(gMode==='som'){w=gAntw+Math.floor(Math.random()*11)-5;if(w<0||w>gVal*2)continue;}
+    else{var rt=gVal[Math.floor(Math.random()*gVal.length)];w=rt*(Math.floor(Math.random()*10)+1);}
+    if(w!==gAntw&&w>0&&opties.indexOf(w)===-1)opties.push(w);
+  }
+  opties.sort(function(){return Math.random()-.5;});
+
+  var ag=document.getElementById('ansGrid');ag.innerHTML='';
+  for(var i=0;i<opties.length;i++){
+    (function(opt,st){
+      var btn=document.createElement('button');
+      btn.className='ans-btn';
+      btn.textContent=opt;
+      btn.onclick=function(){controleer(btn,opt,st);};
+      ag.appendChild(btn);
+    })(opties[i],somTxt);
+  }
+}
+
+function controleer(btn,val,somTxt){
+  if(gGesloten)return;
+  gGesloten=true;
+  var ok=(val===gAntw);
+  var fb=document.getElementById('fbEl');
+  if(ok){
+    btn.classList.add('ok');
+    fb.textContent=GOED[Math.floor(Math.random()*GOED.length)];
+    fb.className='fb ok';
+  } else {
+    gFouten++;
+    gFoutenLijst.push({som:somTxt,gegeven:val,goed:gAntw});
+    btn.classList.add('no');
+    var btns=document.getElementById('ansGrid').getElementsByTagName('button');
+    for(var i=0;i<btns.length;i++){if(+btns[i].textContent===gAntw)btns[i].classList.add('ok');}
+    fb.textContent=FOUT[Math.floor(Math.random()*FOUT.length)];
+    fb.className='fb no';
+  }
+  document.getElementById('gFout').textContent=gFouten;
+  if(gNr>=20){setTimeout(function(){eindeSpel();},ok?700:1200);}
+  else{setTimeout(function(){volgendeVraag();},ok?650:1100);}
+}
+
+function eindeSpel(){
+  clearInterval(gTick);
+  gVerlopen=Math.floor((Date.now()-gStart)/1000);
+  slaScore(gKey,gVerlopen);
+  var t3=top3(gKey);
+  var isRec=(t3.length>0&&t3[0]===gVerlopen);
+
+  toon('S_end');
+
+  document.getElementById('endIco').textContent=isRec?'🏆':'🌟';
+  document.getElementById('endTitel').textContent=isRec?'Nieuw record!':'Goed gedaan, tovenaar!';
+  document.getElementById('endMsg').textContent=isRec
+    ?'Wauw! '+fmt(gVerlopen)+' - jouw snelste tijd ooit!'
+    :'Je deed het in '+fmt(gVerlopen)+'. Kun je het record verslaan?';
+  document.getElementById('eTijd').textContent=fmt(gVerlopen);
+  document.getElementById('eFouten').textContent=gFouten;
+
+  var top3el=document.getElementById('eTop3');top3el.innerHTML='';
+  if(t3.length===0){top3el.textContent='-';}
+  else{for(var i=0;i<t3.length;i++){var r=document.createElement('div');r.className='erow';r.textContent=MEDALS[i]+' '+fmt(t3[i]);top3el.appendChild(r);}}
+
+  var ftBlok=document.getElementById('ftBlok');
+  var ftGrid=document.getElementById('ftGrid');ftGrid.innerHTML='';
+  if(gFoutenLijst.length>0){
+    ftBlok.classList.remove('hidden');ftBlok.style.display='flex';
+    for(var i=0;i<gFoutenLijst.length;i++){
+      var f=gFoutenLijst[i];
+      var k=document.createElement('div');k.className='ft-kaart';
+      var s=document.createElement('div');s.className='ft-som';s.textContent=f.som.replace('= ?','= '+f.goed);
+      var d=document.createElement('div');d.className='ft-det';d.textContent='Jij zei: '+f.gegeven;
+      k.appendChild(s);k.appendChild(d);ftGrid.appendChild(k);
+    }
+  } else {ftBlok.classList.add('hidden');}
+
+  // STICKER
+  var sIdx=Math.floor(Math.random()*STICKERS.length);
+  var sData=STICKERS[sIdx];
+  var kw;
+  if((gVorigeRec===null||gVerlopen<gVorigeRec)&&gFouten===0){kw='magisch';}
+  else if(gVerlopen<60&&gFouten<=1){kw='goud';}
+  else if(gVerlopen<90&&gFouten<=3){kw='zilver';}
+  else{kw='brons';}
+  var nu=new Date();
+  var datum=(nu.getDate()<10?'0':'')+nu.getDate()+'-'+((nu.getMonth()+1)<10?'0':'')+(nu.getMonth()+1)+'-'+nu.getFullYear();
+  slaSticker({ico:sData.ico,naam:sData.naam,desc:sData.desc,kw:kw,datum:datum});
+  updateBadge();
+
+  document.getElementById('stIco').textContent=sData.ico;
+  document.getElementById('stNaam').textContent=sData.naam;
+  document.getElementById('stDesc').textContent=sData.desc;
+  var stKw=document.getElementById('stKw');
+  stKw.textContent=kw.charAt(0).toUpperCase()+kw.slice(1);
+  stKw.className='kw '+kw;
+
+  // animatie via setTimeout zodat het werkt op iPad
+  var ico=document.getElementById('stIco');
+  ico.style.animation='none';
+  setTimeout(function(){ico.style.animation='stPop .6s ease forwards';},30);
+
+  document.getElementById('B_nogeen').onclick=function(){startSpel(gMode,gVal);};
+  document.getElementById('B_keuze').onclick=function(){if(gMode==='som'){toonSommen();}else{toonTafels();}};
+}
+
+// NAV
+function toonSommen(){bouwSommenMenu();toon('S_sommen');}
+function toonTafels(){bouwTafelsMenu();toon('S_tafels');}
+function toonStickerboek(){bouwStickerboek();toon('S_stickerboek');}
+
+// EVENTS
+document.getElementById('B_sommen').onclick=function(){toonSommen();};
+document.getElementById('B_tafels').onclick=function(){toonTafels();};
+document.getElementById('B_stickerboek').onclick=function(){toonStickerboek();};
+document.getElementById('B_somTerug').onclick=function(){toon('S_home');};
+document.getElementById('B_tafTerug').onclick=function(){toon('S_home');};
+document.getElementById('B_sbTerug').onclick=function(){toon('S_home');};
+document.getElementById('B_stop').onclick=function(){clearInterval(gTick);if(gMode==='som'){toonSommen();}else{toonTafels();}};
+document.getElementById('B_mix').onclick=function(){
+  var cbs=document.querySelectorAll('.mx-cb:checked');
+  var gekozen=[];
+  for(var i=0;i<cbs.length;i++)gekozen.push(parseInt(cbs[i].value));
+  if(gekozen.length===0){alert('Kies minstens een tafel!');return;}
+  startSpel('tafel',gekozen);
+};
+
+// START
+updateBadge();
+toon('S_home');
+</script>
+</body>
+</html>
